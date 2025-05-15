@@ -180,23 +180,99 @@ public class QLearner extends Artifact {
    *                                  action, e.g. true
    **/
   @OPERATION
-  public void getActionFromState(Object[] goalDescription, Object[] currentStateDescription,
-      OpFeedbackParam<String> nextBestActionTag, OpFeedbackParam<Object[]> nextBestActionPayloadTags,
+  public void getActionFromState(Object[] goalDescription,
+      Object[] currentStateDescription,
+      OpFeedbackParam<String> nextBestActionTag,
+      OpFeedbackParam<Object[]> nextBestActionPayloadTags,
       OpFeedbackParam<Object[]> nextBestActionPayload) {
+    // 1) retrieve the Q-table for this goal
+    int key = Arrays.hashCode(goalDescription);
+    double[][] Q = qTables.get(key);
+    if (Q == null) {
+      LOGGER.warning("No Q-table for goal " + Arrays.toString(goalDescription));
+      return;
+    }
 
-    // remove the following upon implementing Task 2.3!
+    // 2) build the discrete 7-entry vector
+    List<Integer> stateVec = new ArrayList<>(7);
+    for (int i = 0; i < 7; i++) {
+      Object v = currentStateDescription[i];
+      int d;
+      if (v instanceof Number) {
+        double x = ((Number) v).doubleValue();
+        if (i <= 1)
+          d = discretizeLightLevel(x);
+        else if (i == 6)
+          d = discretizeSunshine(x);
+        else
+          d = ((Number) v).intValue();
+      } else {
+        // boolean slots 2–5
+        d = ((Boolean) v) ? 1 : 0;
+      }
+      stateVec.add(d);
+    }
 
-    // sets the semantic annotation of the next best action to be returned
-    nextBestActionTag.set("http://example.org/was#SetZ1Light");
+    // 3) find its index in the state space
+    int s = lab.getStateSpace().indexOf(stateVec);
+    if (s < 0) {
+      LOGGER.warning("Unknown state vector: " + stateVec);
+      return;
+    }
 
-    // sets the semantic annotation of the payload of the next best action to be
-    // returned
-    Object payloadTags[] = { "Z1Light" };
-    nextBestActionPayloadTags.set(payloadTags);
+    // 4) pick the action with max Q[s][a] among applicable
+    List<Integer> valid = lab.getApplicableActions(s);
+    int bestA = valid.get(0);
+    double bestQ = Q[s][bestA];
+    for (int a : valid) {
+      if (Q[s][a] > bestQ) {
+        bestQ = Q[s][a];
+        bestA = a;
+      }
+    }
 
-    // sets the payload of the next best action to be returned
-    Object payload[] = { true };
-    nextBestActionPayload.set(payload);
+    // 5) map to semantic affordance + payload
+    String[] affordances = {
+        "http://example.org/was#SetZ1Light",
+        "http://example.org/was#SetZ2Light",
+        "http://example.org/was#SetZ1Blinds",
+        "http://example.org/was#SetZ2Blinds"
+    };
+    int group = bestA / 2; // 0..3
+    boolean value = (bestA % 2 == 1); // even→false, odd→true
+    String tag = affordances[group];
+    String payloadTag = switch (group) {
+      case 0 -> "Z1Light";
+      case 1 -> "Z2Light";
+      case 2 -> "Z1Blinds";
+      default -> "Z2Blinds";
+    };
+
+    // 6) return results
+    nextBestActionTag.set(tag);
+    nextBestActionPayloadTags.set(new Object[] { payloadTag });
+    nextBestActionPayload.set(new Object[] { value });
+  }
+
+  // reuse Lab’s discretization thresholds:
+  private int discretizeLightLevel(double v) {
+    if (v < 50)
+      return 0;
+    if (v < 100)
+      return 1;
+    if (v < 300)
+      return 2;
+    return 3;
+  }
+
+  private int discretizeSunshine(double v) {
+    if (v < 50)
+      return 0;
+    if (v < 200)
+      return 1;
+    if (v < 700)
+      return 2;
+    return 3;
   }
 
   /**

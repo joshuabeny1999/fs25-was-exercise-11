@@ -52,11 +52,23 @@ task_requirements([2,3]).
 
   // creates a ThingArtifact artifact for reading and acting on the state of the lab Thing
   makeArtifact("lab", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], LabArtId);
-  
-  // example use of the getActionFromState operation of the QLearner artifact
-  // relevant for Task 2.3
-  getActionFromState([1,1], [0, 0, false, false, false, false, 3], ActionTag, PayloadTags, Payload);
+  !achieve.
 
-  // example use of the invokeAction operation of the ThingArtifact 
-  //invokeAction(ActionTag, PayloadTags, Payload)
-  .
+
++!achieve : task_requirements([Z1Level, Z2Level]) <-
+  .print("Try to achieve Z1Level=", Z1Level, " and Z2Level=",Z2Level);
+  readProperty("https://example.org/was#Status", CurrentRawState);
+  .print("Current state: ", CurrentRawState);
+  qlearner.getActionFromState([Z1Level,Z2Level], CurrentRawState,
+                               NextTag, NextPayloadTags, NextPayload);
+
+  // invoke it on the lab
+  .print("Next action: ", NextTag, " with payload: ", NextPayloadTags, " and ", NextPayload);
+  invokeAction(NextTag, NextPayloadTags, NextPayload);
+
+  // check if we’re done by recalling that QLearner will have
+  // discretized the raw values internally
+  // so simply loop until the QLearner would choose “no action”
+  // or you could re‐read and test for convergence here
+  .wait(200);
+  !achieve.
