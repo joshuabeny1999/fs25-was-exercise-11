@@ -1,5 +1,10 @@
 package tools;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.*;
 import java.util.logging.*;
 import cartago.Artifact;
@@ -85,15 +90,14 @@ public class QLearner extends Artifact {
 
     for (int ep = 0; ep < episodes; ep++) {
       // 3) random “kick” to shuffle initial state
-      int startIdx = lab.readCurrentState();
-      List<Integer> inA = lab.getApplicableActions(startIdx);
-      lab.performAction(inA.get(rand.nextInt(inA.size())));
+      randomizeStartState(rand, 10);
 
       // 4) read & index the new start state
       int s = lab.readCurrentState();
 
+      int step = 0, maxSteps = 50;
       boolean done = false;
-      while (!done) {
+      while (!done && step++ < maxSteps) {
         // 5) ε-greedy pick
         List<Integer> actions = lab.getApplicableActions(s);
         int a;
@@ -125,7 +129,8 @@ public class QLearner extends Artifact {
         double match = (z1 == r1 && z2 == r2) ? goalReward : -1.0;
         double energy = -0.5 * ((l1 ? 1 : 0) + (l2 ? 1 : 0))
             - 0.1 * ((b1 ? 1 : 0) + (b2 ? 1 : 0));
-        double R = match + energy;
+        double partial = (3 - Math.abs(z1 - r1)) + (3 - Math.abs(z2 - r2));
+        double R = partial * 0.5 + match + energy;
 
         // 8) Q-update
         double qsa = Q[s][a];
@@ -150,6 +155,8 @@ public class QLearner extends Artifact {
     // store
     qTables.put(Arrays.hashCode(goalDescription), Q);
     LOGGER.info("Finished Q-learning for goal " + Arrays.toString(goalDescription));
+    printQTable(Q);
+    saveQTable(Q, r1, r2, episodes, alpha, gamma, epsilon);
   }
 
   /**
@@ -221,5 +228,61 @@ public class QLearner extends Artifact {
       }
     }
     return qTable;
+  }
+
+  /**
+   * Save the Q matrix to a CSV file, including state indices.
+   *
+   * @param Q        the Q matrix
+   * @param r1       the first goal value
+   * @param r2       the second goal value
+   * @param episodes the number of episodes run
+   * @param alpha    the learning rate
+   * @param gamma    the discount factor
+   * @param epsilon  the exploration probability
+   */
+  private void saveQTable(double[][] Q,
+      int r1,
+      int r2,
+      int episodes,
+      double alpha,
+      double gamma,
+      double epsilon) {
+    // construct filename as before
+    String filename = String.format(
+        "qtable_%d_%d_episode%d_alpha%f_gamma%f_epsilon%f.csv",
+        r1, r2, episodes, alpha, gamma, epsilon);
+
+    try (PrintWriter writer = new PrintWriter(new File(filename))) {
+      // 1) write header: state, a0, a1, ..., aN
+      writer.println("state," +
+          IntStream.range(0, actionCount)
+              .mapToObj(i -> "a" + i)
+              .collect(Collectors.joining(",")));
+
+      // 2) write each row: stateIndex, Q[state][0], Q[state][1], ...
+      for (int i = 0; i < Q.length; i++) {
+        String row = i + "," + // <-- prepend the state index
+            Arrays.stream(Q[i])
+                .mapToObj(v -> String.format("%.4f", v))
+                .collect(Collectors.joining(","));
+        writer.println(row);
+      }
+
+      LOGGER.info("Saved Q-table (with state indices) to “" + filename + "”");
+    } catch (IOException e) {
+      LOGGER.severe("Failed to write Q-table file: " + e.getMessage());
+    }
+  }
+
+  private void randomizeStartState(Random rand, int maxKicks) {
+    // pick a random number of kicks (1..maxKicks)
+    int kicks = rand.nextInt(maxKicks) + 1;
+    for (int i = 0; i < kicks; i++) {
+      // read current row‐index, get its valid actions, then perform one at random
+      int cur = lab.readCurrentState();
+      List<Integer> valid = lab.getApplicableActions(cur);
+      lab.performAction(valid.get(rand.nextInt(valid.size())));
+    }
   }
 }

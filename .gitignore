@@ -15,3 +15,5 @@ build
 .settings
 
 .vscode/
+
+.DS_Store

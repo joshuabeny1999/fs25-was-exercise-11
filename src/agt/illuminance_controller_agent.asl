@@ -38,6 +38,18 @@ task_requirements([2,3]).
   // creates a QLearner artifact for learning the lab Thing described by the W3C WoT TD located at URL
   makeArtifact("qlearner", "tools.QLearner", [Url], QLArtId);
 
+  .print("Training QLearner for goal [", Z1Level, ",", Z2Level, "]…");
+  calculateQ([Z1Level, Z2Level], 2500, 0.5, 0.8, 0.4, 15);
+    /* 
+       params are:
+         • goalDescription = [Z1Level, Z2Level]
+         • episodes        = 2500
+         • α (alpha)       = 0.5
+         • γ (gamma)       = 0.8
+         • ε (epsilon)     = 0.4
+         • rewardObj       = 15
+    */
+
   // creates a ThingArtifact artifact for reading and acting on the state of the lab Thing
   makeArtifact("lab", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], LabArtId);
   
