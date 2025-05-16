@@ -11,13 +11,11 @@
 // the agent has a belief about the location of the W3C Web of Thing (WoT) Thing Description (TD)
 // that describes a lab environment to be learnt
 learning_lab_environment("https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/interactions-lab.ttl").
-
+real_lab_environment("https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/interactions-lab-real.ttl").
 // the agent believes that the task that takes place in the 1st workstation requires an indoor illuminance
 // level of Rank 2, and the task that takes place in the 2nd workstation requires an indoor illumincance 
 // level of Rank 3. Modify the belief so that the agent can learn to handle different goals.
-task_requirements([2,3]).
-
-goal_reached(false).
+task_requirements([2,1]).
 
 /* Initial goals */
 !start. // the agent has the goal to start
@@ -31,17 +29,17 @@ goal_reached(false).
  * Body: (currently) creates a QLearnerArtifact and a ThingArtifact for learning and acting on the lab environment.
 */
 @start
-+!start : learning_lab_environment(Url) 
++!start : learning_lab_environment(LearnLabUrl) & real_lab_environment(RealLabUrl)
   & task_requirements([Z1Level, Z2Level]) <-
 
   .print("Hello world");
   .print("I want to achieve Z1Level=", Z1Level, " and Z2Level=",Z2Level);
 
   // creates a QLearner artifact for learning the lab Thing described by the W3C WoT TD located at URL
-  makeArtifact("qlearner", "tools.QLearner", [Url], QLArtId);
+  makeArtifact("qlearner", "tools.QLearner", [LearnLabUrl], QLArtId);
 
   .print("Training QLearner for goal [", Z1Level, ",", Z2Level, "]…");
-  calculateQ([Z1Level, Z2Level], 2500, 0.5, 0.8, 0.4, 15);
+  calculateQ([Z1Level, Z2Level], 100, 0.5, 0.8, 0.4, 15);
     /* 
        params are:
          • goalDescription = [Z1Level, Z2Level]
@@ -53,11 +51,11 @@ goal_reached(false).
     */
 
   // creates a ThingArtifact artifact for reading and acting on the state of the lab Thing
-  makeArtifact("lab", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], LabArtId);
+  makeArtifact("lab", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [RealLabUrl], LabArtId);
   !achieve.
 
 
-+!achieve : task_requirements([Z1Level, Z2Level]) & goal_reached(false) <-
++!achieve : task_requirements([Z1Level, Z2Level]) <-
   .print("Try to achieve Z1Level=", Z1Level, " and Z2Level=",Z2Level);
   readProperty("https://example.org/was#Status", CurrentRawTags, CurrentRawState);
   .print("Current state tags: ", CurrentRawTags);
@@ -73,12 +71,16 @@ goal_reached(false).
   // discretized the raw values internally
   // so simply loop until the QLearner would choose “no action”
   // or you could re‐read and test for convergence here
-  .wait(200);
+  .wait(5000);
   readProperty("https://example.org/was#Status", NewRawTags, NewRawState);
   isGoalReached([Z1Level,Z2Level], NewRawTags, NewRawState, Reached);
   .print("Goal reached?: ", Reached);
-  -+goal_reached(Reached);
-  !achieve.
-
-+!achieve : task_requirements([Z1Level, Z2Level]) & goal_reached(true) <-
-  .print("Goal reached for [", Z1Level, ",", Z2Level, "]!").
+  if (Reached == true) {
+    .print("Goal reached for [", Z1Level, ",", Z2Level, "]!");
+    .print("I will now stop.");
+    .print("================END================");
+  } else {
+    .print("Goal not reached yet.");
+    !achieve;
+  }
+  .

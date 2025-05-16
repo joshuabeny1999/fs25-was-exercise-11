@@ -290,11 +290,14 @@ public class QLearner extends Artifact {
     // discretize the two illuminance readings
     double z1raw = ((Number) m.get("http://example.org/was#Z1Level")).doubleValue();
     double z2raw = ((Number) m.get("http://example.org/was#Z2Level")).doubleValue();
+    System.out.println("Checking Goal: Raw values : " + z1raw + ", " + z2raw);
     int z1 = discretizeLightLevel(z1raw);
     int z2 = discretizeLightLevel(z2raw);
     // parse goal
     int g1 = Integer.parseInt(goalDescription[0].toString());
     int g2 = Integer.parseInt(goalDescription[1].toString());
+
+    System.out.println("Checking Goal with parsed values: " + z1 + " == " + g1 + " && " + z2 + " == " + g2);
     // compare
     isReached.set(z1 == g1 && z2 == g2);
   }
