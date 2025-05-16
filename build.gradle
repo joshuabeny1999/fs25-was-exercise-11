@@ -50,6 +50,11 @@ task task (type: JavaExec, dependsOn: 'classes') {
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'task.jcm'
     classpath sourceSets.main.runtimeClasspath
+    // keep-alive JVM flags:
+    jvmArgs = [
+      '-Dhttp.keepAlive=true',
+      '-Dhttp.maxConnections=100'
+    ]
 }
 
 clean {

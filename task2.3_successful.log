@@ -1,0 +1,128 @@
+[QLearner] Saved Q-table (with state indices) to “qtable_2_3_episode2500_alpha0.500000_gamma0.800000_epsilon0.400000.csv”
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [533.7818777990093,5,true,20.30000000000002,630.7395409155622,false,true,2229,true,783.7818777990093]
+State vector: [3, 3, 1, 0, 1, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ1Blinds with payload: ["Z1Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z1Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [533.7818777990093,5,false,20.30000000000002,630.7395409155622,false,true,2229,true,783.7818777990093]
+State vector: [3, 3, 1, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ1Light with payload: ["Z1Light"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z1Light":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [533.7818777990093,5,false,20.30000000000002,630.7395409155622,false,false,2229,true,783.7818777990093]
+State vector: [3, 3, 0, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [533.7818777990093,5,false,20.30000000000002,630.7395409155622,false,false,2229,false,783.7818777990093]
+State vector: [3, 3, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ1Light with payload: ["Z1Light"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z1Light":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [533.7818777990093,100,false,20.30000000000002,630.7395409155622,false,true,2229,false,783.7818777990093]
+State vector: [3, 3, 1, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ1Light with payload: ["Z1Light"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z1Light":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,100,false,20.40000000000002,634.2362274582074,false,false,2229,false,0]
+State vector: [0, 0, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.40000000000002,634.2362274582074,false,false,2229,true,0]
+State vector: [0, 0, 0, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.40000000000002,634.2362274582074,false,false,2229,false,0]
+State vector: [0, 0, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.40000000000002,634.2362274582074,false,false,2229,true,0]
+State vector: [0, 0, 0, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.50000000000002,639.1201792840964,false,false,2229,false,0]
+State vector: [0, 0, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.50000000000002,639.1201792840964,false,false,2229,true,0]
+State vector: [0, 0, 0, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.50000000000002,639.1201792840964,false,false,2229,false,0]
+State vector: [0, 0, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.50000000000002,639.1201792840964,false,false,2229,true,0]
+State vector: [0, 0, 0, 0, 0, 1, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [false]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":false}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: false
+[illuminance_controller_agent] Try to achieve Z1Level=2 and Z2Level=3
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Current state tags: ["http://example.org/was#Z2Level","http://example.org/was#EnergyCost","http://example.org/was#Z1Blinds","http://example.org/was#Hour","http://example.org/was#Sunshine","http://example.org/was#Z2Light","http://example.org/was#Z1Light","http://example.org/was#TotalEnergyCost","http://example.org/was#Z2Blinds","http://example.org/was#Z1Level"]
+[illuminance_controller_agent] Current state: [0,5,false,20.50000000000002,639.1201792840964,false,false,2229,false,0]
+State vector: [0, 0, 0, 0, 0, 0, 2]
+[illuminance_controller_agent] Next action: http://example.org/was#SetZ2Blinds with payload: ["Z2Blinds"] and [true]
+[lab] [TDHttpRequest] Method: POST, Target: http://localhost:1880/was/rl/action, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent, Payload: {"Z2Blinds":true}
+[lab] [TDHttpRequest] Method: GET, Target: http://localhost:1880/was/rl/status, Content-Type: application/json, X-Agent-WebID: http://hyperagents.org/illuminance_controller_agent, X-Agent-LocalName: illuminance_controller_agent
+[illuminance_controller_agent] Goal reached?: true
+[illuminance_controller_agent] Goal reached for [2,3]!

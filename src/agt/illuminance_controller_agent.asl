@@ -17,6 +17,8 @@ learning_lab_environment("https://raw.githubusercontent.com/Interactions-HSG/exa
 // level of Rank 3. Modify the belief so that the agent can learn to handle different goals.
 task_requirements([2,3]).
 
+goal_reached(false).
+
 /* Initial goals */
 !start. // the agent has the goal to start
 
@@ -55,11 +57,12 @@ task_requirements([2,3]).
   !achieve.
 
 
-+!achieve : task_requirements([Z1Level, Z2Level]) <-
++!achieve : task_requirements([Z1Level, Z2Level]) & goal_reached(false) <-
   .print("Try to achieve Z1Level=", Z1Level, " and Z2Level=",Z2Level);
-  readProperty("https://example.org/was#Status", CurrentRawState);
+  readProperty("https://example.org/was#Status", CurrentRawTags, CurrentRawState);
+  .print("Current state tags: ", CurrentRawTags);
   .print("Current state: ", CurrentRawState);
-  qlearner.getActionFromState([Z1Level,Z2Level], CurrentRawState,
+  getActionFromState([Z1Level,Z2Level], CurrentRawTags, CurrentRawState,
                                NextTag, NextPayloadTags, NextPayload);
 
   // invoke it on the lab
@@ -71,4 +74,11 @@ task_requirements([2,3]).
   // so simply loop until the QLearner would choose “no action”
   // or you could re‐read and test for convergence here
   .wait(200);
+  readProperty("https://example.org/was#Status", NewRawTags, NewRawState);
+  isGoalReached([Z1Level,Z2Level], NewRawTags, NewRawState, Reached);
+  .print("Goal reached?: ", Reached);
+  -+goal_reached(Reached);
   !achieve.
+
++!achieve : task_requirements([Z1Level, Z2Level]) & goal_reached(true) <-
+  .print("Goal reached for [", Z1Level, ",", Z2Level, "]!").

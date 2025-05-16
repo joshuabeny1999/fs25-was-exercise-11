@@ -181,46 +181,50 @@ public class QLearner extends Artifact {
    **/
   @OPERATION
   public void getActionFromState(Object[] goalDescription,
-      Object[] currentStateDescription,
-      OpFeedbackParam<String> nextBestActionTag,
-      OpFeedbackParam<Object[]> nextBestActionPayloadTags,
-      OpFeedbackParam<Object[]> nextBestActionPayload) {
-    // 1) retrieve the Q-table for this goal
+      Object[] rawTags,
+      Object[] rawValues,
+      OpFeedbackParam<String> outTag,
+      OpFeedbackParam<Object[]> outPayloadTags,
+      OpFeedbackParam<Object[]> outPayload) {
+    // 1) look up Q‐table
     int key = Arrays.hashCode(goalDescription);
     double[][] Q = qTables.get(key);
     if (Q == null) {
-      LOGGER.warning("No Q-table for goal " + Arrays.toString(goalDescription));
+      LOGGER.warning("No Q‐table for goal " + Arrays.toString(goalDescription));
       return;
     }
 
-    // 2) build the discrete 7-entry vector
-    List<Integer> stateVec = new ArrayList<>(7);
-    for (int i = 0; i < 7; i++) {
-      Object v = currentStateDescription[i];
-      int d;
-      if (v instanceof Number) {
-        double x = ((Number) v).doubleValue();
-        if (i <= 1)
-          d = discretizeLightLevel(x);
-        else if (i == 6)
-          d = discretizeSunshine(x);
-        else
-          d = ((Number) v).intValue();
-      } else {
-        // boolean slots 2–5
-        d = ((Boolean) v) ? 1 : 0;
-      }
-      stateVec.add(d);
+    // 2) map semantic URI → raw value
+    Map<String, Object> m = new HashMap<>();
+    for (int i = 0; i < rawTags.length; i++) {
+      m.put(rawTags[i].toString(), rawValues[i]);
     }
 
-    // 3) find its index in the state space
+    // 3) extract exactly our 7 features in the fixed order:
+    // [Z1Level,Z2Level, Z1Light,Z2Light, Z1Blinds,Z2Blinds, Sunshine]
+    // whether or not the JSON contained Hour or other extra props
+    List<Integer> stateVec = List.of(
+        // discretize raw lux
+        discretizeLightLevel(((Number) m.get("http://example.org/was#Z1Level")).doubleValue()),
+        discretizeLightLevel(((Number) m.get("http://example.org/was#Z2Level")).doubleValue()),
+        // boolean lights
+        ((Boolean) m.get("http://example.org/was#Z1Light")) ? 1 : 0,
+        ((Boolean) m.get("http://example.org/was#Z2Light")) ? 1 : 0,
+        // boolean blinds
+        ((Boolean) m.get("http://example.org/was#Z1Blinds")) ? 1 : 0,
+        ((Boolean) m.get("http://example.org/was#Z2Blinds")) ? 1 : 0,
+        // discretize sunshine
+        discretizeSunshine(((Number) m.get("http://example.org/was#Sunshine")).doubleValue()));
+
+    System.out.println("State vector: " + stateVec);
+    // 4) find its row index
     int s = lab.getStateSpace().indexOf(stateVec);
     if (s < 0) {
-      LOGGER.warning("Unknown state vector: " + stateVec);
+      LOGGER.warning("State not in space: " + stateVec);
       return;
     }
 
-    // 4) pick the action with max Q[s][a] among applicable
+    // 5) ε‐greedy is done offline; here just pick best among applicable
     List<Integer> valid = lab.getApplicableActions(s);
     int bestA = valid.get(0);
     double bestQ = Q[s][bestA];
@@ -231,27 +235,68 @@ public class QLearner extends Artifact {
       }
     }
 
-    // 5) map to semantic affordance + payload
+    // 6) map bestA → semantic affordance + payload
     String[] affordances = {
         "http://example.org/was#SetZ1Light",
         "http://example.org/was#SetZ2Light",
         "http://example.org/was#SetZ1Blinds",
         "http://example.org/was#SetZ2Blinds"
     };
-    int group = bestA / 2; // 0..3
-    boolean value = (bestA % 2 == 1); // even→false, odd→true
+    int group = bestA / 2;
+    boolean value = (bestA % 2 == 1);
     String tag = affordances[group];
-    String payloadTag = switch (group) {
-      case 0 -> "Z1Light";
-      case 1 -> "Z2Light";
-      case 2 -> "Z1Blinds";
-      default -> "Z2Blinds";
-    };
+    String payloadKey;
+    switch (group) {
+      case 0:
+        payloadKey = "Z1Light";
+        break;
+      case 1:
+        payloadKey = "Z2Light";
+        break;
+      case 2:
+        payloadKey = "Z1Blinds";
+        break;
+      default:
+        payloadKey = "Z2Blinds";
+        break;
+    }
 
-    // 6) return results
-    nextBestActionTag.set(tag);
-    nextBestActionPayloadTags.set(new Object[] { payloadTag });
-    nextBestActionPayload.set(new Object[] { value });
+    // 7) return them
+    outTag.set(tag);
+    outPayloadTags.set(new Object[] { payloadKey });
+    outPayload.set(new Object[] { value });
+  }
+
+  /**
+   * Tell whether the given raw state matches the goal.
+   *
+   * @param goalDescription e.g. [2,3]
+   * @param rawTags         the returned property tags, e.g. ["http://…#Z1Level",
+   *                        …]
+   * @param rawValues       the returned values, e.g. [123.4, …, true, …]
+   * @param isReached       OUT: true if after discretization z1==goal[0] &&
+   *                        z2==goal[1]
+   */
+  @OPERATION
+  public void isGoalReached(Object[] goalDescription,
+      Object[] rawTags,
+      Object[] rawValues,
+      OpFeedbackParam<Boolean> isReached) {
+    // build map tag→value
+    Map<String, Object> m = new HashMap<>();
+    for (int i = 0; i < rawTags.length; i++) {
+      m.put(rawTags[i].toString(), rawValues[i]);
+    }
+    // discretize the two illuminance readings
+    double z1raw = ((Number) m.get("http://example.org/was#Z1Level")).doubleValue();
+    double z2raw = ((Number) m.get("http://example.org/was#Z2Level")).doubleValue();
+    int z1 = discretizeLightLevel(z1raw);
+    int z2 = discretizeLightLevel(z2raw);
+    // parse goal
+    int g1 = Integer.parseInt(goalDescription[0].toString());
+    int g2 = Integer.parseInt(goalDescription[1].toString());
+    // compare
+    isReached.set(z1 == g1 && z2 == g2);
   }
 
   // reuse Lab’s discretization thresholds:
